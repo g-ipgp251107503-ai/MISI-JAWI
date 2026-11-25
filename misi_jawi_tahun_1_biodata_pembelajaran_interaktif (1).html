@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misi Jawi Tahun 1 - Biodata & Pembelajaran Interaktif</title>
+    <!-- Muat turun Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Muat turun Font Mesra Kanak-Kanak (Fredoka & Amiri untuk tulisan Jawi) -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Muat turun Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Tone.js untuk kesan bunyi ceria apabila butang ditekan -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <style>
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #FEF9C3;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .jawi-font {
+            font-family: 'Amiri', serif;
+            direction: rtl;
+        }
+
+        /* Corak Latar Belakang Islamik & Ceria yang Jelas di atas Kuning Soft */
+        .bg-pattern {
+            background-color: #FEF9C3;
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23F59E0B' fill-opacity='0.14'%3E%3Cpath d='M40 12l5.5 11.2 12.3 1.8-8.9 8.7 2.1 12.3L40 40.2 29 46l2.1-12.3-8.9-8.7 12.3-1.8L40 12zm0 44a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM14 58a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm52 0a3 3 0 1 1 0 6 3 3 0 0 1 0-6z'/%3E%3C/g%3E%3Cpath d='M0 40h12M68 40h12M40 0v8M40 72v8' stroke='%23EAB308' stroke-opacity='0.18' stroke-width='2' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E"), linear-gradient(135deg, #FEFCE8 0%, #FEF9C3 50%, #FEF08A 100%);
+        }
+
+        /* Animasi Terapung untuk Hiasan */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        .animate-float-delayed {
+            animation: float 5s ease-in-out 2s infinite;
+        }
+
+        /* Butang 3D Mesra Kanak-Kanak */
+        .btn-3d {
+            transition: all 0.15s ease;
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.18);
+        }
+        .btn-3d:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.18);
+        }
+
+        /* Kad Flip Interaktif */
+        .perspective {
+            perspective: 1000px;
+        }
+        .flip-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flipped .flip-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-front, .flip-back {
+            backface-visibility: hidden;
+        }
+        .flip-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Animasi Pop */
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .pop-in {
+            animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+    </style>
+</head>
+<body class="bg-pattern text-slate-800 relative selection:bg-amber-300 selection:text-slate-900">
+
+    <!-- Elemen Hiasan Latar Belakang (Awan, Bintang & Bulan Sabit) -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <!-- Bintang Kiri Atas -->
+        <svg class="w-16 h-16 text-amber-400/50 absolute top-8 left-6 animate-float" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        <!-- Bulan Sabit Kanan Atas -->
+        <svg class="w-20 h-20 text-sky-400/40 absolute top-12 right-8 animate-float-delayed" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Bintang Bawah Kiri -->
+        <svg class="w-14 h-14 text-pink-400/40 absolute bottom-16 left-10 animate-float-delayed" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+    </div>
+
+    <!-- Bekas Utama Aplikasi -->
+    <div class="relative z-10 max-w-5xl mx-auto px-4 py-6 sm:py-8">
+
+        <!-- Pengepala (Header) Ceria -->
+        <header class="bg-white/90 backdrop-blur-md rounded-3xl p-4 sm:p-6 shadow-xl border-4 border-amber-300 mb-6 text-center relative overflow-hidden">
+            <div class="inline-flex items-center gap-2 bg-amber-100 text-amber-800 px-4 py-1.5 rounded-full text-sm font-bold mb-2 border border-amber-300">
+                <span>✨</span> PENDIDIKAN ISLAM • TAHUN 1 <span>✨</span>
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-600 via-purple-600 to-pink-600 tracking-tight">
+                MISI JAWI TAHUN 1
+            </h1>
+            <p class="text-slate-600 font-medium mt-1 text-base sm:text-lg">
+                Jom Kenali Cikgu & Kuasai Tulisan Jawi Dengan Seronok!
+            </p>
+        </header>
+
+        <!-- Bar Navigasi Butang Utama (Interaktif) -->
+        <nav class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
+            <button onclick="switchTab('biodata')" id="btn-biodata" class="tab-btn btn-3d bg-gradient-to-b from-amber-400 to-amber-500 text-white font-bold py-3.5 px-4 rounded-2xl flex flex-col sm:flex-row items-center justify-center gap-2 border-2 border-amber-200 ring-4 ring-amber-300/60">
+                <i data-lucide="user-check" class="w-6 h-6"></i>
+                <span class="text-sm sm:text-base">Biodata Guru</span>
+            </button>
+
+            <button onclick="switchTab('baca')" id="btn-baca" class="tab-btn btn-3d bg-gradient-to-b from-sky-400 to-sky-500 text-white font-bold py-3.5 px-4 rounded-2xl flex flex-col sm:flex-row items-center justify-center gap-2 border-2 border-sky-200 opacity-90 hover:opacity-100">
+                <i data-lucide="book-open" class="w-6 h-6"></i>
+                <span class="text-sm sm:text-base">Baca Suku Kata</span>
+            </button>
+
+            <button onclick="switchTab('tulis')" id="btn-tulis" class="tab-btn btn-3d bg-gradient-to-b from-emerald-400 to-emerald-500 text-white font-bold py-3.5 px-4 rounded-2xl flex flex-col sm:flex-row items-center justify-center gap-2 border-2 border-emerald-200 opacity-90 hover:opacity-100">
+                <i data-lucide="pen-tool" class="w-6 h-6"></i>
+                <span class="text-sm sm:text-base">Tulis Perkataan</span>
+            </button>
+
+            <button onclick="switchTab('sambung')" id="btn-sambung" class="tab-btn btn-3d bg-gradient-to-b from-pink-400 to-pink-500 text-white font-bold py-3.5 px-4 rounded-2xl flex flex-col sm:flex-row items-center justify-center gap-2 border-2 border-pink-200 opacity-90 hover:opacity-100">
+                <i data-lucide="puzzle" class="w-6 h-6"></i>
+                <span class="text-sm sm:text-base">Huruf Bersambung</span>
+            </button>
+        </nav>
+
+        <!-- KANDUNGAN 1: BIODATA INTERAKTIF -->
+        <section id="tab-biodata" class="tab-content pop-in">
+            <div class="bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-sky-300">
+                <div class="flex flex-col lg:flex-row items-center gap-8">
+                    
+                    <!-- Bingkai Gambar Penuh (Full Image Display - Tiada Pemotongan/Crop) -->
+                    <div class="w-full lg:w-5/12 flex flex-col items-center">
+                        <div class="relative bg-gradient-to-tr from-amber-200 via-sky-200 to-pink-200 p-3 rounded-3xl shadow-lg border-4 border-white w-full max-w-sm">
+                            <!-- Lencana Bintang -->
+                            <div class="absolute -top-4 -right-4 bg-amber-400 text-white p-2.5 rounded-2xl shadow-md rotate-12 border-2 border-white">
+                                <i data-lucide="sparkles" class="w-6 h-6"></i>
+                            </div>
+                            
+                            <!-- Gambar dari pautan GitHub (menggunakan object-contain supaya gambar penuh dipaparkan tanpa terpotong) -->
+                            <div class="bg-white rounded-2xl overflow-hidden flex items-center justify-center min-h-[280px] sm:min-h-[340px]">
+                                <img 
+                                    src="https://raw.githubusercontent.com/g-ipgp251107503-ai/MISI-JAWI-TAHUN-1/main/photo_6068605927180410648_y%20(2).jpg" 
+                                    alt="Foto Profil Guru Misi Jawi Tahun 1" 
+                                    class="w-full h-auto max-h-[420px] object-contain rounded-xl transition-transform duration-300 hover:scale-105"
+                                    onerror="this.onerror=null; this.src='https://placehold.co/400x500/E0F2FE/0284C7?text=Foto+Guru+Misi+Jawi';"
+                                >
+                            </div>
+                        </div>
+                        <span class="mt-3 text-xs font-semibold text-sky-700 bg-sky-100 px-3 py-1 rounded-full">
+                            📸 Paparan Gambar Penuh
+                        </span>
+                    </div>
+
+                    <!-- Bahagian Maklumat & Butang Interaktif Biodata -->
+                    <div class="w-full lg:w-7/12 space-y-5">
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-dashed border-slate-200 pb-4">
+                            <div>
+                                <span class="text-sm font-bold text-pink-500 uppercase tracking-wider">Assalamualaikum Anak-Anak!</span>
+                                <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-0.5">Selamat Datang ke Kelas Cikgu Farhana</h2>
+                            </div>
+                            <button onclick="openEditModal()" class="btn-3d bg-purple-500 hover:bg-purple-600 text-white text-sm font-bold px-4 py-2 rounded-xl flex items-center gap-1.5">
+                                <i data-lucide="edit-3" class="w-4 h-4"></i>
+                                <span>Ubah Biodata</span>
+                            </button>
+                        </div>
+
+                        <!-- Butang Pilihan Info Biodata -->
+                        <p class="text-sm font-semibold text-slate-500">Tekan butang di bawah untuk melihat maklumat:</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                            <button onclick="showBioCard('profil')" id="bio-btn-profil" class="bio-sub-btn btn-3d bg-sky-500 text-white font-bold py-2.5 px-3 rounded-xl text-sm flex items-center justify-center gap-1.5 ring-2 ring-sky-300">
+                                <i data-lucide="smile" class="w-4 h-4"></i> Profil Diri
+                            </button>
+                            <button onclick="showBioCard('misi')" id="bio-btn-misi" class="bio-sub-btn btn-3d bg-amber-400 text-slate-900 font-bold py-2.5 px-3 rounded-xl text-sm flex items-center justify-center gap-1.5">
+                                <i data-lucide="target" class="w-4 h-4"></i> Misi Kelas
+                            </button>
+                            <button onclick="showBioCard('hobi')" id="bio-btn-hobi" class="bio-sub-btn btn-3d bg-pink-400 text-white font-bold py-2.5 px-3 rounded-xl text-sm flex items-center justify-center gap-1.5">
+                                <i data-lucide="heart" class="w-4 h-4"></i> Minat & Hobi
+                            </button>
+                            <button onclick="showBioCard('ucapan')" id="bio-btn-ucapan" class="bio-sub-btn btn-3d bg-emerald-400 text-white font-bold py-2.5 px-3 rounded-xl text-sm flex items-center justify-center gap-1.5">
+                                <i data-lucide="message-circle" class="w-4 h-4"></i> Kata Semangat
+                            </button>
+                        </div>
+
+                        <!-- Paparan Kad Dinamik Biodata -->
+                        <div id="bio-display-box" class="bg-gradient-to-br from-sky-50 to-indigo-50 border-2 border-sky-200 rounded-2xl p-5 sm:p-6 min-h-[190px] flex flex-col justify-center shadow-inner transition-all">
+                            <!-- Kandungan diisi oleh JavaScript -->
+                        </div>
+
+                        <!-- Butang Interaktif Tambahan: Beri Bintang & Ucapan Salam -->
+                        <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+                            <button onclick="sendSalam()" class="btn-3d bg-gradient-to-r from-amber-400 to-orange-400 text-white font-bold py-3 px-5 rounded-2xl flex items-center gap-2 text-sm sm:text-base">
+                                <span>👋</span> Jawab Salam Cikgu!
+                            </button>
+                            <div id="salam-feedback" class="hidden bg-emerald-100 text-emerald-800 border border-emerald-300 px-4 py-2 rounded-xl font-bold text-sm pop-in">
+                                Waalaikumussalam! Semoga ceria belajar Jawi hari ini! 🌟
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KANDUNGAN 2: MEMBINA DAN MEMBACA PERKATAAN 2 SUKU KATA TERTUTUP -->
+        <section id="tab-baca" class="tab-content hidden pop-in">
+            <div class="bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-sky-400">
+                <!-- Tajuk Modul 1 -->
+                <div class="bg-sky-100 border-2 border-sky-300 rounded-2xl p-4 sm:p-5 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div>
+                        <span class="bg-sky-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Topik 1</span>
+                        <h2 class="text-xl sm:text-2xl font-bold text-sky-900 mt-1">
+                            Membina dan Membaca Perkataan yang Terdiri Daripada 2 Suku Kata Tertutup
+                        </h2>
+                        <p class="text-sky-700 text-sm sm:text-base mt-1">
+                            Suku kata tertutup ialah suku kata yang diakhiri dengan <strong>huruf konsonan</strong>. Tekan butang perkataan di bawah untuk mengeja dan membaca!
+                        </p>
+                    </div>
+                    <div class="bg-white p-3 rounded-2xl shadow-sm border border-sky-200 text-center shrink-0">
+                        <span class="text-xs font-bold text-slate-400 block">FORMULA</span>
+                        <span class="text-sm font-bold text-sky-600">KVK + KVK</span>
+                    </div>
+                </div>
+
+                <!-- Pilihan Perkataan Interaktif -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6" id="word-buttons-container">
+                    <!-- Dijana oleh JS -->
+                </div>
+
+                <!-- Paparan Binaan & Ejaan Perkataan -->
+                <div class="bg-gradient-to-b from-amber-50 to-orange-50 border-3 border-amber-300 rounded-3xl p-6 text-center shadow-inner">
+                    <p class="text-sm font-bold text-amber-700 uppercase tracking-wide mb-3">Mari Cerakin & Baca Bersama</p>
+                    
+                    <!-- Kotak Cerakinan Suku Kata (Kanan ke Kiri untuk Jawi) -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 my-4" dir="rtl">
+                        <!-- Suku Kata Pertama -->
+                        <div class="bg-white border-2 border-sky-300 rounded-2xl p-4 w-40 shadow-md">
+                            <span class="text-xs font-bold text-sky-500 block mb-1" dir="ltr">Suku Kata 1</span>
+                            <div id="read-syl1-jawi" class="jawi-font text-4xl sm:text-5xl font-bold text-slate-800 my-1">بَن</div>
+                            <div id="read-syl1-rumi" class="text-base font-bold text-sky-600" dir="ltr">ban</div>
+                        </div>
+
+                        <div class="text-3xl font-bold text-amber-500">+</div>
+
+                        <!-- Suku Kata Kedua -->
+                        <div class="bg-white border-2 border-pink-300 rounded-2xl p-4 w-40 shadow-md">
+                            <span class="text-xs font-bold text-pink-500 block mb-1" dir="ltr">Suku Kata 2</span>
+                            <div id="read-syl2-jawi" class="jawi-font text-4xl sm:text-5xl font-bold text-slate-800 my-1">تَل</div>
+                            <div id="read-syl2-rumi" class="text-base font-bold text-pink-600" dir="ltr">tal</div>
+                        </div>
+
+                        <div class="text-3xl font-bold text-amber-500">=</div>
+
+                        <!-- Perkataan Penuh -->
+                        <div class="bg-gradient-to-br from-emerald-400 to-teal-500 text-white rounded-2xl p-4 w-48 shadow-lg border-2 border-white">
+                            <span class="text-xs font-bold text-emerald-100 block mb-1" dir="ltr">Perkataan Penuh</span>
+                            <div id="read-full-jawi" class="jawi-font text-5xl sm:text-6xl font-bold my-1">بنتل</div>
+                            <div id="read-full-rumi" class="text-lg font-bold tracking-wide uppercase" dir="ltr">BANTAL</div>
+                        </div>
+                    </div>
+
+                    <!-- Panduan Ayat Ringkas -->
+                    <div class="mt-4 bg-white/80 rounded-2xl p-3.5 inline-block border border-amber-200">
+                        <p id="read-guide-text" class="text-slate-700 font-medium text-sm sm:text-base">
+                            💡 <strong>Cara Baca:</strong> Bunyikan suku kata pertama <strong>"ban"</strong>, kemudian sambung bunyi kedua <strong>"tal"</strong> menjadi <strong>"bantal"</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KANDUNGAN 3: MEMBINA DAN MENULIS PERKATAAN 2 SUKU KATA TERTUTUP DENGAN BETUL -->
+        <section id="tab-tulis" class="tab-content hidden pop-in">
+            <div class="bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-emerald-400">
+                <!-- Tajuk Modul 2 -->
+                <div class="bg-emerald-100 border-2 border-emerald-300 rounded-2xl p-4 sm:p-5 mb-6">
+                    <span class="bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Topik 2</span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-emerald-900 mt-1">
+                        Membina dan Menulis Perkataan yang Terdiri Daripada 2 Suku Kata Tertutup dengan Cara yang Betul
+                    </h2>
+                    <p class="text-emerald-800 text-sm sm:text-base mt-1">
+                        Pilih suku kata yang betul dari <strong>kanan ke kiri</strong> untuk membina perkataan Jawi yang lengkap!
+                    </p>
+                </div>
+
+                <!-- Cabaran Bina Perkataan Interaktif -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+                    <!-- Panel Kiri: Gambar & Petunjuk -->
+                    <div class="bg-slate-50 border-2 border-slate-200 rounded-3xl p-6 text-center">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold bg-amber-200 text-amber-900 px-3 py-1 rounded-full" id="write-progress">Soalan 1 / 4</span>
+                            <span class="text-xs font-bold text-emerald-600" id="write-score">Markah: 0</span>
+                        </div>
+                        
+                        <div id="write-emoji" class="text-7xl my-4 animate-float">🛏️</div>
+                        <h3 class="text-2xl font-bold text-slate-800 uppercase" id="write-target-rumi">BANTAL</h3>
+                        <p class="text-sm text-slate-500 mt-1" id="write-hint">Petunjuk: Digunakan untuk meletak kepala semasa tidur.</p>
+
+                        <!-- Kotak Jawapan Terbina (Kanan ke Kiri) -->
+                        <div class="mt-5 bg-white border-2 border-dashed border-emerald-400 rounded-2xl p-4">
+                            <p class="text-xs font-bold text-slate-400 mb-2">BINAAN PERKATAAN ANDA (KANAN ➔ KIRI)</p>
+                            <div class="flex items-center justify-center gap-3" dir="rtl">
+                                <div id="slot-1" class="w-24 h-16 bg-emerald-50 border-2 border-emerald-300 rounded-xl flex items-center justify-center jawi-font text-3xl font-bold text-emerald-800">?</div>
+                                <span class="text-xl font-bold text-slate-400">+</span>
+                                <div id="slot-2" class="w-24 h-16 bg-emerald-50 border-2 border-emerald-300 rounded-xl flex items-center justify-center jawi-font text-3xl font-bold text-emerald-800">?</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel Kanan: Butang Pilihan Suku Kata & Kaedah Menulis -->
+                    <div class="space-y-4">
+                        <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4">
+                            <h4 class="font-bold text-amber-900 text-sm flex items-center gap-1.5 mb-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-600"></i>
+                                Langkah Menulis dengan Betul:
+                            </h4>
+                            <ul class="text-xs sm:text-sm text-amber-800 space-y-1 list-disc list-inside">
+                                <li>Mulakan tulisan dari arah <strong>kanan ke kiri</strong>.</li>
+                                <li>Gugurkan huruf vokal <strong>'a' (ا)</strong> di tengah suku kata tertutup.</li>
+                                <li>Pastikan huruf yang boleh bersambung disambung dengan kemas.</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <p class="text-sm font-bold text-slate-700 mb-2">Tekan 2 suku kata mengikut urutan:</p>
+                            <div id="syllable-choices" class="grid grid-cols-2 gap-3" dir="rtl">
+                                <!-- Butang pilihan suku kata dijana oleh JS -->
+                            </div>
+                        </div>
+
+                        <!-- Mesej Maklum Balas & Butang Kawalan -->
+                        <div id="write-feedback" class="hidden p-3.5 rounded-2xl font-bold text-sm text-center"></div>
+
+                        <div class="flex gap-3 pt-2">
+                            <button onclick="resetWriteQuestion()" class="btn-3d bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-3 px-4 rounded-xl text-sm flex-1">
+                                🔄 Padam Semula
+                            </button>
+                            <button onclick="nextWriteQuestion()" id="btn-next-write" class="btn-3d bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-4 rounded-xl text-sm flex-1">
+                                Soalan Seterusnya ➔
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KANDUNGAN 4: MENGENAL DAN MENULIS BENTUK HURUF BERSAMBUNG DI AWAL, TENGAH DAN AKHIR -->
+        <section id="tab-sambung" class="tab-content hidden pop-in">
+            <div class="bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-pink-400">
+                <!-- Tajuk Modul 3 -->
+                <div class="bg-pink-100 border-2 border-pink-300 rounded-2xl p-4 sm:p-5 mb-6">
+                    <span class="bg-pink-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Topik 3</span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-pink-900 mt-1">
+                        Mengenal dan Menulis Bentuk Huruf Bersambung di Awal, Tengah dan Akhir
+                    </h2>
+                    <p class="text-pink-800 text-sm sm:text-base mt-1">
+                        Bentuk huruf Jawi berubah mengikut kedudukannya. Pilih satu huruf di bawah untuk melihat perubahan bentuknya!
+                    </p>
+                </div>
+
+                <!-- Pilihan Huruf Jawi -->
+                <div class="flex flex-wrap justify-center gap-2.5 mb-6" dir="rtl" id="letter-selector">
+                    <!-- Butang huruf dijana oleh JS -->
+                </div>
+
+                <!-- Paparan Kedudukan Huruf (Kanan ke Kiri: Tunggal -> Awal -> Tengah -> Akhir) -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6" dir="rtl">
+                    <!-- Huruf Tunggal -->
+                    <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 text-center shadow-sm">
+                        <span class="bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1 rounded-full" dir="ltr">Huruf Tunggal</span>
+                        <div id="pos-single" class="jawi-font text-6xl font-bold text-slate-800 my-4">ب</div>
+                        <p class="text-xs text-slate-500 font-medium" dir="ltr">Bentuk asal huruf</p>
+                    </div>
+
+                    <!-- Di Awal Perkataan -->
+                    <div class="bg-sky-50 border-2 border-sky-300 rounded-2xl p-4 text-center shadow-sm">
+                        <span class="bg-sky-500 text-white text-xs font-bold px-3 py-1 rounded-full" dir="ltr">Di Awal</span>
+                        <div id="pos-initial" class="jawi-font text-6xl font-bold text-sky-700 my-4">بـ</div>
+                        <p id="ex-initial" class="jawi-font text-2xl font-bold text-slate-700">بـاجو</p>
+                        <p id="rumi-initial" class="text-xs text-sky-600 font-bold mt-1" dir="ltr">(baju)</p>
+                    </div>
+
+                    <!-- Di Tengah Perkataan -->
+                    <div class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 text-center shadow-sm">
+                        <span class="bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full" dir="ltr">Di Tengah</span>
+                        <div id="pos-medial" class="jawi-font text-6xl font-bold text-amber-700 my-4">ـبـ</div>
+                        <p id="ex-medial" class="jawi-font text-2xl font-bold text-slate-700">تـبـو</p>
+                        <p id="rumi-medial" class="text-xs text-amber-600 font-bold mt-1" dir="ltr">(tebu)</p>
+                    </div>
+
+                    <!-- Di Akhir Perkataan -->
+                    <div class="bg-pink-50 border-2 border-pink-300 rounded-2xl p-4 text-center shadow-sm">
+                        <span class="bg-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full" dir="ltr">Di Akhir</span>
+                        <div id="pos-final" class="jawi-font text-6xl font-bold text-pink-700 my-4">ـب</div>
+                        <p id="ex-final" class="jawi-font text-2xl font-bold text-slate-700">كيتـب</p>
+                        <p id="rumi-final" class="text-xs text-pink-600 font-bold mt-1" dir="ltr">(kitab)</p>
+                    </div>
+                </div>
+
+                <!-- Nota Khas Huruf Sombong / Tidak Boleh Bersambung Selepasnya -->
+                <div class="bg-gradient-to-r from-purple-100 to-pink-100 border-2 border-purple-200 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-purple-500 text-white p-2.5 rounded-xl shrink-0">
+                            <i data-lucide="info" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-purple-900 text-sm sm:text-base">Ingat Huruf "Tidak Bersambung Selepasnya"!</h4>
+                            <p class="text-xs sm:text-sm text-purple-800">
+                                Huruf berikut hanya boleh disambung <strong>sebelumnya</strong>, tetapi tidak boleh disambung selepasnya:
+                            </p>
+                        </div>
+                    </div>
+                    <div class="jawi-font text-3xl font-bold text-purple-900 bg-white px-4 py-2 rounded-xl border border-purple-200 tracking-widest shrink-0">
+                        ا د ذ ر ز و ۏ
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pengaki (Footer) -->
+        <footer class="mt-8 text-center text-slate-600 text-xs sm:text-sm font-medium pb-4">
+            <p>✨ Dibina khas untuk pembelajaran interaktif <strong>Misi Jawi Tahun 1</strong> ✨</p>
+        </footer>
+    </div>
+
+    <!-- MODAL UBAH BIODATA (Supaya pengguna boleh menyesuaikan nama/maklumat guru dengan mudah) -->
+    <div id="edit-bio-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-4 border-purple-300 pop-in">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-purple-900 flex items-center gap-2">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-amber-500"></i> Kemas Kini Biodata
+                </h3>
+                <button onclick="closeEditModal()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <form onsubmit="saveBioData(event)" class="space-y-3 text-sm">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Nama Guru / Pemilik:</label>
+                    <input type="text" id="input-name" class="w-full border-2 border-slate-200 rounded-xl px-3 py-2 focus:border-purple-400 outline-none" required>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Jawatan / Gelaran:</label>
+                    <input type="text" id="input-role" class="w-full border-2 border-slate-200 rounded-xl px-3 py-2 focus:border-purple-400 outline-none" required>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Sekolah / Institusi:</label>
+                    <input type="text" id="input-school" class="w-full border-2 border-slate-200 rounded-xl px-3 py-2 focus:border-purple-400 outline-none" required>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Misi Pembelajaran:</label>
+                    <textarea id="input-mission" rows="2" class="w-full border-2 border-slate-200 rounded-xl px-3 py-2 focus:border-purple-400 outline-none" required></textarea>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Kata-Kata Semangat:</label>
+                    <input type="text" id="input-quote" class="w-full border-2 border-slate-200 rounded-xl px-3 py-2 focus:border-purple-400 outline-none" required>
+                </div>
+                <div class="pt-3 flex gap-2">
+                    <button type="button" onclick="closeEditModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl">Batal</button>
+                    <button type="submit" class="flex-1 btn-3d bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 rounded-xl">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Inisialisasi Ikon Lucide
+        lucide.createIcons();
+
+        // Sistem Bunyi Ceria Menggunakan Tone.js (Tanpa URL luar)
+        let synth = null;
+        function playPopSound(note = "C5") {
+            try {
+                if (!synth) {
+                    synth = new Tone.Synth({
+                        oscillator: { type: "triangle" },
+                        envelope: { attack: 0.01, decay: 0.1, sustain: 0.05, release: 0.2 }
+                    }).toDestination();
+                }
+                if (Tone.context.state !== 'running') {
+                    Tone.start();
+                }
+                synth.triggerAttackRelease(note, "16n");
+            } catch (e) {
+                // Abaikan jika pelayar menyekat audio automatik
+            }
+        }
+
+        function playSuccessMelody() {
+            try {
+                if (!synth) playPopSound("C5");
+                const now = Tone.now();
+                synth.triggerAttackRelease("C5", "16n", now);
+                synth.triggerAttackRelease("E5", "16n", now + 0.1);
+                synth.triggerAttackRelease("G5", "8n", now + 0.2);
+            } catch (e) {}
+        }
+
+        // ==========================================
+        // DATA & LOGIK BAHAGIAN 1: BIODATA INTERAKTIF
+        // ==========================================
+        let bioData = {
+            name: "Cikgu Farhana",
+            role: "Guru Pendidikan Islam",
+            school: "Sekolah Kebangsaan",
+            mission: "Membantu murid Tahun 1 menguasai kemahiran membaca dan menulis perkataan Jawi dengan mudah, seronok dan yakin.",
+            hobbies: "Membaca buku cerita Jawi, melukis khat kreatif, dan menghasilkan permainan interaktif untuk murid.",
+            quote: "Belajar Jawi itu mudah dan seronok! Teruskan usaha anak-anak hebat!"
+        };
+
+        let currentBioCategory = 'profil';
+
+        function showBioCard(category) {
+            playPopSound("E5");
+            currentBioCategory = category;
+
+            // Kemas kini gaya butang aktif
+            document.querySelectorAll('.bio-sub-btn').forEach(btn => {
+                btn.classList.remove('ring-4', 'ring-slate-400', 'scale-105');
+            });
+            const activeBtn = document.getElementById(`bio-btn-${category}`);
+            if (activeBtn) {
+                activeBtn.classList.add('ring-4', 'ring-slate-400', 'scale-105');
+            }
+
+            const box = document.getElementById('bio-display-box');
+            let html = '';
+
+            if (category === 'profil') {
+                html = `
+                    <div class="pop-in space-y-2.5">
+                        <div class="inline-block bg-sky-200 text-sky-900 text-xs font-bold px-3 py-1 rounded-full">🌟 PROFIL DIRI</div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-slate-800">${bioData.name}</h3>
+                        <p class="text-sky-700 font-semibold flex items-center gap-2">
+                            <span>🎓</span> ${bioData.role}
+                        </p>
+                        <p class="text-slate-600 font-medium flex items-center gap-2">
+                            <span>🏫</span> ${bioData.school}
+                        </p>
+                    </div>
+                `;
+            } else if (category === 'misi') {
+                html = `
+                    <div class="pop-in space-y-2.5">
+                        <div class="inline-block bg-amber-200 text-amber-900 text-xs font-bold px-3 py-1 rounded-full">🎯 MISI PEMBELAJARAN</div>
+                        <h3 class="text-lg sm:text-xl font-bold text-slate-800">Matlamat Kelas Jawi Tahun 1</h3>
+                        <p class="text-slate-700 leading-relaxed font-medium">${bioData.mission}</p>
+                    </div>
+                `;
+            } else if (category === 'hobi') {
+                html = `
+                    <div class="pop-in space-y-2.5">
+                        <div class="inline-block bg-pink-200 text-pink-900 text-xs font-bold px-3 py-1 rounded-full">🎨 MINAT & KREATIVITI</div>
+                        <h3 class="text-lg sm:text-xl font-bold text-slate-800">Aktiviti Kegemaran</h3>
+                        <p class="text-slate-700 leading-relaxed font-medium">${bioData.hobbies}</p>
+                    </div>
+                `;
+            } else if (category === 'ucapan') {
+                html = `
+                    <div class="pop-in space-y-2.5">
+                        <div class="inline-block bg-emerald-200 text-emerald-900 text-xs font-bold px-3 py-1 rounded-full">💌 PESANAN UNTUK MURID</div>
+                        <p class="text-lg sm:text-xl font-bold text-emerald-800 italic">"${bioData.quote}"</p>
+                    </div>
+                `;
+            }
+
+            box.innerHTML = html;
+        }
+
+        function sendSalam() {
+            playSuccessMelody();
+            const feedback = document.getElementById('salam-feedback');
+            feedback.classList.remove('hidden');
+        }
+
+        function openEditModal() {
+            playPopSound("G5");
+            document.getElementById('input-name').value = bioData.name;
+            document.getElementById('input-role').value = bioData.role;
+            document.getElementById('input-school').value = bioData.school;
+            document.getElementById('input-mission').value = bioData.mission;
+            document.getElementById('input-quote').value = bioData.quote;
+            document.getElementById('edit-bio-modal').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('edit-bio-modal').classList.add('hidden');
+        }
+
+        function saveBioData(e) {
+            e.preventDefault();
+            bioData.name = document.getElementById('input-name').value;
+            bioData.role = document.getElementById('input-role').value;
+            bioData.school = document.getElementById('input-school').value;
+            bioData.mission = document.getElementById('input-mission').value;
+            bioData.quote = document.getElementById('input-quote').value;
+            closeEditModal();
+            showBioCard(currentBioCategory);
+            playSuccessMelody();
+        }
+
+        // ==========================================
+        // DATA & LOGIK BAHAGIAN 2: BACA 2 SUKU KATA TERTUTUP
+        // ==========================================
+        const closedSyllableWords = [
+            { rumi: "BANTAL", jawi: "بنتل", s1Jawi: "بَن", s1Rumi: "ban", s2Jawi: "تَل", s2Rumi: "tal", emoji: "🛏️" },
+            { rumi: "CINCIN", jawi: "چينچين", s1Jawi: "چين", s1Rumi: "cin", s2Jawi: "چين", s2Rumi: "cin", emoji: "💍" },
+            { rumi: "SAMPAN", jawi: "سمڤن", s1Jawi: "سَم", s1Rumi: "sam", s2Jawi: "ڤَن", s2Rumi: "pan", emoji: "🚣" },
+            { rumi: "RAMBUT", jawi: "رمبوت", s1Jawi: "رَم", s1Rumi: "ram", s2Jawi: "بوت", s2Rumi: "but", emoji: "💇" },
+            { rumi: "MASJID", jawi: "مسجد", s1Jawi: "مَس", s1Rumi: "mas", s2Jawi: "جِد", s2Rumi: "jid", emoji: "🕌" },
+            { rumi: "PENSIL", jawi: "ڤينسيل", s1Jawi: "ڤين", s1Rumi: "pen", s2Jawi: "سيل", s2Rumi: "sil", emoji: "✏️" },
+            { rumi: "DOMPET", jawi: "دومڤيت", s1Jawi: "دوم", s1Rumi: "dom", s2Jawi: "ڤيت", s2Rumi: "pet", emoji: "👛" },
+            { rumi: "KERTAS", jawi: "كرتس", s1Jawi: "كَر", s1Rumi: "ker", s2Jawi: "تَس", s2Rumi: "tas", emoji: "📄" }
+        ];
+
+        function initReadModule() {
+            const container = document.getElementById('word-buttons-container');
+            container.innerHTML = closedSyllableWords.map((word, idx) => `
+                <button onclick="selectReadWord(${idx})" class="read-word-btn btn-3d bg-white hover:bg-sky-50 border-2 border-sky-200 rounded-2xl p-3 flex flex-col items-center justify-center transition-all ${idx === 0 ? 'ring-4 ring-sky-400 bg-sky-50' : ''}">
+                    <span class="text-2xl mb-1">${word.emoji}</span>
+                    <span class="jawi-font text-2xl font-bold text-slate-800">${word.jawi}</span>
+                    <span class="text-xs font-bold text-sky-600 mt-0.5">${word.rumi}</span>
+                </button>
+            `).join('');
+        }
+
+        function selectReadWord(index) {
+            playPopSound("G5");
+            const word = closedSyllableWords[index];
+            
+            document.querySelectorAll('.read-word-btn').forEach((btn, i) => {
+                if (i === index) {
+                    btn.classList.add('ring-4', 'ring-sky-400', 'bg-sky-50');
+                } else {
+                    btn.classList.remove('ring-4', 'ring-sky-400', 'bg-sky-50');
+                }
+            });
+
+            document.getElementById('read-syl1-jawi').textContent = word.s1Jawi;
+            document.getElementById('read-syl1-rumi').textContent = word.s1Rumi;
+            document.getElementById('read-syl2-jawi').textContent = word.s2Jawi;
+            document.getElementById('read-syl2-rumi').textContent = word.s2Rumi;
+            document.getElementById('read-full-jawi').textContent = word.jawi;
+            document.getElementById('read-full-rumi').textContent = word.rumi;
+            document.getElementById('read-guide-text').innerHTML = `
+                💡 <strong>Cara Baca:</strong> Bunyikan suku kata pertama <strong>"${word.s1Rumi}"</strong>, kemudian sambung bunyi kedua <strong>"${word.s2Rumi}"</strong> menjadi <strong>"${word.rumi.toLowerCase()}"</strong>.
+            `;
+        }
+
+        // ==========================================
+        // DATA & LOGIK BAHAGIAN 3: BINA & TULIS PERKATAAN
+        // ==========================================
+        const writeChallenges = [
+            {
+                rumi: "BANTAL",
+                emoji: "🛏️",
+                hint: "Petunjuk: Digunakan untuk meletak kepala semasa tidur.",
+                correct: ["بن", "تل"],
+                fullWord: "بنتل",
+                choices: ["بن", "تل", "با", "تو"]
+            },
+            {
+                rumi: "SAMPAN",
+                emoji: "🚣",
+                hint: "Petunjuk: Perahu kecil untuk mendayung di sungai.",
+                correct: ["سم", "ڤن"],
+                fullWord: "سمڤن",
+                choices: ["سم", "ڤن", "سا", "ڤا"]
+            },
+            {
+                rumi: "MASJID",
+                emoji: "🕌",
+                hint: "Petunjuk: Tempat umat Islam menunaikan solat berjemaah.",
+                correct: ["مس", "جد"],
+                fullWord: "مسجد",
+                choices: ["مس", "جد", "ما", "جا"]
+            },
+            {
+                rumi: "CINCIN",
+                emoji: "💍",
+                hint: "Petunjuk: Perhiasan cantik yang dipakai pada jari.",
+                correct: ["چين", "چين"],
+                fullWord: "چينچين",
+                choices: ["چين", "چين", "چي", "چو"]
+            }
+        ];
+
+        let currentWriteIdx = 0;
+        let selectedSlots = [];
+        let writeScore = 0;
+        let questionSolved = false;
+
+        function loadWriteQuestion() {
+            const q = writeChallenges[currentWriteIdx];
+            selectedSlots = [];
+            questionSolved = false;
+
+            document.getElementById('write-progress').textContent = `Soalan ${currentWriteIdx + 1} / ${writeChallenges.length}`;
+            document.getElementById('write-emoji').textContent = q.emoji;
+            document.getElementById('write-target-rumi').textContent = q.rumi;
+            document.getElementById('write-hint').textContent = q.hint;
+
+            document.getElementById('slot-1').textContent = "?";
+            document.getElementById('slot-2').textContent = "?";
+            document.getElementById('slot-1').className = "w-24 h-16 bg-emerald-50 border-2 border-emerald-300 rounded-xl flex items-center justify-center jawi-font text-3xl font-bold text-emerald-800";
+            document.getElementById('slot-2').className = "w-24 h-16 bg-emerald-50 border-2 border-emerald-300 rounded-xl flex items-center justify-center jawi-font text-3xl font-bold text-emerald-800";
+
+            const fb = document.getElementById('write-feedback');
+            fb.classList.add('hidden');
+
+            // Kocok pilihan jawapan
+            const shuffled = [...q.choices].sort(() => Math.random() - 0.5);
+            const choicesContainer = document.getElementById('syllable-choices');
+            choicesContainer.innerHTML = shuffled.map((syl, idx) => `
+                <button onclick="pickSyllable('${syl}', this)" class="syl-choice-btn btn-3d bg-white hover:bg-emerald-50 border-2 border-emerald-300 rounded-2xl py-3 px-4 jawi-font text-3xl font-bold text-slate-800">
+                    ${syl}
+                </button>
+            `).join('');
+        }
+
+        function pickSyllable(syl, btnElement) {
+            if (questionSolved || selectedSlots.length >= 2) return;
+            playPopSound("A5");
+
+            selectedSlots.push(syl);
+            btnElement.disabled = true;
+            btnElement.classList.add('opacity-40', 'cursor-not-allowed');
+
+            if (selectedSlots.length === 1) {
+                document.getElementById('slot-1').textContent = syl;
+                document.getElementById('slot-1').classList.add('bg-emerald-200');
+            } else if (selectedSlots.length === 2) {
+                document.getElementById('slot-2').textContent = syl;
+                document.getElementById('slot-2').classList.add('bg-emerald-200');
+                checkWriteAnswer();
+            }
+        }
+
+        function checkWriteAnswer() {
+            const q = writeChallenges[currentWriteIdx];
+            const fb = document.getElementById('write-feedback');
+            fb.classList.remove('hidden');
+
+            if (selectedSlots[0] === q.correct[0] && selectedSlots[1] === q.correct[1]) {
+                playSuccessMelody();
+                questionSolved = true;
+                writeScore += 10;
+                document.getElementById('write-score').textContent = `Markah: ${writeScore}`;
+                fb.className = "p-3.5 rounded-2xl font-bold text-sm text-center bg-emerald-100 text-emerald-800 border-2 border-emerald-400 pop-in";
+                fb.innerHTML = `🎉 Syabas! Binaan tulisan yang betul ialah: <span class="jawi-font text-2xl mx-1">${q.fullWord}</span> (${q.rumi})`;
+            } else {
+                playPopSound("C4");
+                fb.className = "p-3.5 rounded-2xl font-bold text-sm text-center bg-rose-100 text-rose-800 border-2 border-rose-300 pop-in";
+                fb.innerHTML = `❌ Belum tepat. Tekan <strong>"Padam Semula"</strong> dan cuba susun dari kanan ke kiri ya!`;
+            }
+        }
+
+        function resetWriteQuestion() {
+            playPopSound("D5");
+            loadWriteQuestion();
+        }
+
+        function nextWriteQuestion() {
+            playPopSound("E5");
+            currentWriteIdx = (currentWriteIdx + 1) % writeChallenges.length;
+            loadWriteQuestion();
+        }
+
+        // ==========================================
+        // DATA & LOGIK BAHAGIAN 4: HURUF BERSAMBUNG
+        // ==========================================
+        const connectedLetters = [
+            { single: "ب", initial: "بـ", medial: "ـبـ", final: "ـب", exInit: "بـاجو", rumiInit: "baju", exMed: "تـبـو", rumiMed: "tebu", exFin: "كيتـب", rumiFin: "kitab" },
+            { single: "ت", initial: "تـ", medial: "ـتـ", final: "ـت", exInit: "تـالي", rumiInit: "tali", exMed: "بـتـو", rumiMed: "batu", exFin: "بوكيـت", rumiFin: "bukit" },
+            { single: "ج", initial: "جـ", medial: "ـجـ", final: "ـج", exInit: "جـاري", rumiInit: "jari", exMed: "بـاجـو", rumiMed: "baju", exFin: "تـاج", rumiFin: "taj" },
+            { single: "س", initial: "سـ", medial: "ـسـ", final: "ـس", exInit: "سـاتو", rumiInit: "satu", exMed: "نـاسـي", rumiMed: "nasi", exFin: "بـرس", rumiFin: "beras" },
+            { single: "ك", initial: "كـ", medial: "ـكـ", final: "ـك", exInit: "كـاكي", rumiInit: "kaki", exMed: "بـوكـو", rumiMed: "buku", exFin: "كاكـك", rumiFin: "kakak" },
+            { single: "ل", initial: "لـ", medial: "ـلـ", final: "ـل", exInit: "لـابو", rumiInit: "labu", exMed: "بـولـن", rumiMed: "bulan", exFin: "بنتـل", rumiFin: "bantal" },
+            { single: "م", initial: "مـ", medial: "ـمـ", final: "ـم", exInit: "مـات", rumiInit: "mata", exMed: "لـمـبو", rumiMed: "lembu", exFin: "مـالـم", rumiFin: "malam" },
+            { single: "ن", initial: "نـ", medial: "ـنـ", final: "ـن", exInit: "نـاسـي", rumiInit: "nasi", exMed: "مـانـيس", rumiMed: "manis", exFin: "بـولـن", rumiFin: "bulan" }
+        ];
+
+        function initLetterModule() {
+            const container = document.getElementById('letter-selector');
+            container.innerHTML = connectedLetters.map((item, idx) => `
+                <button onclick="selectLetter(${idx})" class="letter-btn btn-3d w-14 h-14 rounded-2xl jawi-font text-3xl font-bold border-2 transition-all ${idx === 0 ? 'bg-pink-500 text-white border-pink-300 ring-4 ring-pink-300' : 'bg-white text-slate-800 border-pink-200 hover:bg-pink-50'}">
+                    ${item.single}
+                </button>
+            `).join('');
+        }
+
+        function selectLetter(index) {
+            playPopSound("F5");
+            const item = connectedLetters[index];
+
+            document.querySelectorAll('.letter-btn').forEach((btn, i) => {
+                if (i === index) {
+                    btn.className = "letter-btn btn-3d w-14 h-14 rounded-2xl jawi-font text-3xl font-bold border-2 transition-all bg-pink-500 text-white border-pink-300 ring-4 ring-pink-300";
+                } else {
+                    btn.className = "letter-btn btn-3d w-14 h-14 rounded-2xl jawi-font text-3xl font-bold border-2 transition-all bg-white text-slate-800 border-pink-200 hover:bg-pink-50";
+                }
+            });
+
+            document.getElementById('pos-single').textContent = item.single;
+            document.getElementById('pos-initial').textContent = item.initial;
+            document.getElementById('ex-initial').textContent = item.exInit;
+            document.getElementById('rumi-initial').textContent = `(${item.rumiInit})`;
+
+            document.getElementById('pos-medial').textContent = item.medial;
+            document.getElementById('ex-medial').textContent = item.exMed;
+            document.getElementById('rumi-medial').textContent = `(${item.rumiMed})`;
+
+            document.getElementById('pos-final').textContent = item.final;
+            document.getElementById('ex-final').textContent = item.exFin;
+            document.getElementById('rumi-final').textContent = `(${item.rumiFin})`;
+        }
+
+        // ==========================================
+        // PENUKARAN TAB UTAMA
+        // ==========================================
+        function switchTab(tabName) {
+            playPopSound("C5");
+            
+            // Sembunyikan semua tab
+            document.querySelectorAll('.tab-content').forEach(sec => {
+                sec.classList.add('hidden');
+            });
+
+            // Paparkan tab dipilih
+            const target = document.getElementById(`tab-${tabName}`);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+
+            // Kemas kini visual butang navigasi
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('ring-4', 'ring-amber-300/60', 'ring-sky-300/60', 'ring-emerald-300/60', 'ring-pink-300/60', 'opacity-100');
+                btn.classList.add('opacity-85');
+            });
+
+            const activeBtn = document.getElementById(`btn-${tabName}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('opacity-85');
+                activeBtn.classList.add('opacity-100', 'ring-4', 'ring-white');
+            }
+        }
+
+        // Jalankan inisialisasi semasa halaman dimuatkan
+        window.onload = function() {
+            showBioCard('profil');
+            initReadModule();
+            loadWriteQuestion();
+            initLetterModule();
+        };
+    </script>
+</body>
+</html>
